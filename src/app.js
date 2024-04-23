@@ -1,28 +1,40 @@
 import express from 'express'
-import ProductManager from "./productManager.js"
+import productsRouter from './routes/products.router.js'
+import cartRouter from './routes/cart.router.js';
+import { __dirname, uploader } from './utils.js';
+
+console.log(__dirname)
 const app = express();
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static(__dirname + '/public'))
 
-const product = new ProductManager()
+//middleware
+// app.use((req, res, next) => {
+//     req.nombre ='diego'
+//     console.log('Tiempo: ', Date())
+//     console.log('saludo desde el middleware')
+//     next()
 
+// }) 
 
-app.get("/products", (req, res) => {
-    res.send(product.getProducts());
-});
+app.use('/upload-file', uploader.single('myFile'), (req, res) => { 
+    if(!req.file){
+        return res.send('no se pudo subir eso')
+    }
+    res.send('archivo arriba')
+})
+app.use('/products', productsRouter)
+app.use('/cart', cartRouter)
 
-app.get("/productsfilter", (req, res) => {
-    const { limit } = req.query;
-    const values = product.getProducts()
-    if (!limit || limit <= '0') return res.send(values)
-    const limitValue = values.splice(0,limit)
-    res.send(limitValue);
-});
+app.use((error, req, res, next) => {
+    console.log(error)
+    res.status(500).send('error 500 en el server')
+})
 
-app.get("/products/:pid", (req, res) => {
-    const { pid } = req.params;
-    const value = Number(pid)
-    res.send(product.getProductById(value));
-});
-
+// app.get('/', (req,res)=>{
+//     res.status(200).send(<h1>Hola este seria el index</h1>)
+// })
 app.listen(8080, (error) => {
     console.log("escuchando puerto 8080");
 });
