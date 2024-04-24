@@ -69,6 +69,34 @@ class ProductManager {
 
     }
 
+    updateProduct = async (value, obj) => {
+        const { pid } = value
+        const { title, description, code, price, status = true, stock, category, thumbnail } = obj
+        if (title === undefined || description === undefined || code === undefined || price === undefined || status === undefined || stock === undefined || category === undefined || thumbnail === undefined) {
+            return 'ingrese todos los datos para su actualización'
+        } else {
+            const titles = this.keepReading()
+            const titleFound = titles.map((e) => {
+                if (e.id === Number(pid)) {
+                    const updatedProduct = {
+                        title,
+                        description,
+                        code,
+                        price,
+                        status: true,
+                        stock,
+                        category,
+                        thumbnail
+                    }
+                    return updatedProduct
+                } else {
+                    return e
+                }
+            })
+            await fs.promises.writeFile(this.#path, JSON.stringify(titleFound, null, '\t'), 'utf-8')
+        }
+    }
+
     deleteProduct = async (value) => {
         try {
             const titles = await this.keepReading()

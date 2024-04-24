@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "title":"el heroe de las eras",
+    "description":"es un libro",
+    "code":"aud001",
+    "price":500000,
+    "status":true,
+    "stock":21,
+    "category":"libro audiolibro",
+    "thumbnail":"/path"
+}
+]

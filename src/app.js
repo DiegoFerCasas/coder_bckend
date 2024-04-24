@@ -3,7 +3,6 @@ import productsRouter from './routes/products.router.js'
 import cartRouter from './routes/cart.router.js';
 import { __dirname, uploader } from './utils.js';
 
-console.log(__dirname)
 const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

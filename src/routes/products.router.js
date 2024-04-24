@@ -6,9 +6,15 @@ const product = new ProductManager()
 
 const router = Router()
 
-router.get("/", (req, res) => {
-    res.send(product.getProducts());
+router.get("/", async (req, res) => {
+    const allProducts = await product.getProducts()
+    res.send(allProducts);
 });
+
+router.post('/',(req,res)=>{
+    console.log(req.body)
+    res.post(product.addProduct())
+})
 
 router.get("/searchfilter", (req, res) => {
     const { limit } = req.query;
@@ -18,10 +24,11 @@ router.get("/searchfilter", (req, res) => {
     res.send(limitValue);
 });
 
-router.get("/:pid", (req, res) => {
+router.get("/:pid", async (req, res) => {
     const { pid } = req.params;
     const value = Number(pid)
-    res.send(product.getProductById(value));
+    const pById = await product.getProductById(value)
+    res.send(pById);
 });
 
 export default router
