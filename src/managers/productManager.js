@@ -1,6 +1,5 @@
 import fs from 'fs'
 
-
 class ProductManager {
     #products
     #path
@@ -10,65 +9,106 @@ class ProductManager {
         this.#path = "./titles.json"
     }
 
-    #autoId() {
-        if (this.#products.length === 0) {
-            return 1;
-        }
-        return this.#products.at(-1).id + 1;
-    }
-
-    getProducts() {
-        let readTitles = JSON.parse(fs.readFileSync(this.#path, 'utf-8'))
-        return readTitles;
-    }
-    /**
-     * 
-     * @param {number} id 
-     * @param {string} title 
-     * @param {string} description 
-     * @param {number} price 
-     * @param {string} thumbnail 
-     * @param {string} code 
-     * @param {number} stock 
-     */
-    addProduct(title, description, price, thumbnail, code, stock) {
-        const product = {
-            id: this.#autoId(),
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
-        }
-        let validateCode = product.code
-        if (this.#products.some(e => e.code === validateCode)) {
-            console.log("ERROR, el código ya existe")
-        } else {
-            this.#products.push(product)
-            const titles = JSON.stringify(this.#products, null, '\t')
-            fs.writeFileSync(this.#path, titles, 'utf-8')
+    keepReading = async () => {
+        try {
+            const data = await fs.promises.readFile(this.#path, 'utf-8')
+            return JSON.parse(data)
+        } catch (error) {
+            return []
         }
 
     }
 
-    deleteProduct(value) {
-        const productsJson = JSON.parse(fs.readFileSync("./titles.json", 'utf-8'))
-        const find = productsJson.findIndex((e) => e.id === value)
-        productsJson.splice(find, 1)
-        fs.writeFileSync('./titles.json', JSON.stringify(productsJson, null, '\t'), 'utf-8')
+    #autoId = async () => {
+        try {
+            const productList = await this.keepReading()
+            if (productList.lenght === 0) {
+                return 1;
+            } else {
+                return productList.at(-1).id + 1;
+
+            }
+        } catch (error) { console.log(error) }
     }
 
-    getProductById(value) {
-        const productsJsonId = JSON.parse(fs.readFileSync("./titles.json", 'utf-8'))
-        const find = productsJsonId.find((e) => e.id === value)
-        if (find != undefined) {
-            return find
-        } return "not found"
+
+    getProducts = async () => {
+        try {
+            const readTitles = await this.keepReading()
+            return readTitles
+        } catch (error) { console.log(error) }
     }
+
+
+
+    addProduct = async (product) => {
+        const { title, description, code, price, status = true, stock, category, thumbnail } = product
+        if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) { return 'ingrese todos los datos ' } else {
+            let validator = product.code
+            const titles = await this.keepReading()
+            if (titles.some(e => e.code === validator)) {
+                console.log("ERROR, el código ya existe")
+            } else {
+                const newProduct = {
+                    id: await this.#autoId(),
+                    title,
+                    description,
+                    code,
+                    price,
+                    status: true,
+                    stock,
+                    category,
+                    thumbnail
+                }
+                titles.push(newProduct)
+                await fs.promises.writeFile(this.#path, JSON.stringify(titles, null, '\t'), 'utf-8')
+                return titles
+            }
+
+        }
+
+    }
+
+    deleteProduct = async (value) => {
+        try {
+            const titles = await this.keepReading()
+            const find = titles.findIndex(e => e.id === value)
+            titles.splice(find, 1)
+            await fs.promises.writeFile(this.#path, JSON.stringify(titles, null, '\t'), 'utf-8')
+            return titles
+
+        } catch (error) {
+
+        }
+    }
+
+    getProductById = async (value) => {
+        try {
+            const titles = await this.keepReading()
+            const found = titles.find((e) => e.id === value)
+            if (found !== undefined) {
+                return found
+            } return 'Title not found'
+        } catch (error) { console.log(error) }
+    }
+    
 
 }
+const esta = new ProductManager()
+// console.log(esta.addProduct({
 
+//     title: 'titulo',
+//     description: 'descripcion',
+//     code: 'codigo888',
+//     price: 10000,
+//     status: true,
+//     stock: 100,
+//     category: 'categoria',
+//     thumbnail: '/link'
+// }))
+
+//console.log(esta.deleteProduct(7))
+console.log(esta.getProductById(7))
 export default ProductManager
 
 
