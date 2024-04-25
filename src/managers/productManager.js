@@ -6,7 +6,7 @@ class ProductManager {
 
     constructor() {
         this.#products = []
-        this.#path = "./titles.json"
+        this.#path = "./src/file/titles.json"
     }
 
     keepReading = async () => {
@@ -42,7 +42,8 @@ class ProductManager {
 
 
     addProduct = async (product) => {
-        const { title, description, code, price, status = true, stock, category, thumbnail } = product
+        const { title, description, code, price, status, stock, category, thumbnail } = product
+        console.log(product)
         if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) { return 'ingrese todos los datos ' } else {
             let validator = product.code
             const titles = await this.keepReading()
@@ -61,6 +62,7 @@ class ProductManager {
                     thumbnail
                 }
                 titles.push(newProduct)
+                console.log(titles)
                 await fs.promises.writeFile(this.#path, JSON.stringify(titles, null, '\t'), 'utf-8')
                 return titles
             }
@@ -75,10 +77,11 @@ class ProductManager {
         if (title === undefined || description === undefined || code === undefined || price === undefined || status === undefined || stock === undefined || category === undefined || thumbnail === undefined) {
             return 'ingrese todos los datos para su actualización'
         } else {
-            const titles = this.keepReading()
-            const titleFound = titles.map((e) => {
-                if (e.id === Number(pid)) {
+            const titles = await this.keepReading()
+            const titleFound = titles.map((element) => {
+                if (element.id === parseInt(pid)) {
                     const updatedProduct = {
+                        ...element,
                         title,
                         description,
                         code,
@@ -90,7 +93,7 @@ class ProductManager {
                     }
                     return updatedProduct
                 } else {
-                    return e
+                    return element
                 }
             })
             await fs.promises.writeFile(this.#path, JSON.stringify(titleFound, null, '\t'), 'utf-8')
@@ -120,23 +123,10 @@ class ProductManager {
         } catch (error) { console.log(error) }
     }
     
+    
 
 }
-const esta = new ProductManager()
-// console.log(esta.addProduct({
 
-//     title: 'titulo',
-//     description: 'descripcion',
-//     code: 'codigo888',
-//     price: 10000,
-//     status: true,
-//     stock: 100,
-//     category: 'categoria',
-//     thumbnail: '/link'
-// }))
-
-//console.log(esta.deleteProduct(7))
-console.log(esta.getProductById(7))
 export default ProductManager
 
 

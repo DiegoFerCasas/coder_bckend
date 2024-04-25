@@ -10,12 +10,14 @@
 	},
 	{
 		"id": 2,
-		"title": "el nombre del viento 2",
-		"description": "es un libro2",
-		"price": 10,
-		"thumbnail": "./imagen2.png",
-		"code": "ab11c123",
-		"stock": 12
+		"title": "el nombre del viento 2 actualizado desde UpP",
+		"description": "descripcion upda",
+		"price": 20000,
+		"thumbnail": "/linkupt",
+		"code": "ab11c123upd",
+		"stock": 15,
+		"status": true,
+		"category": "categoriaupdt"
 	},
 	{
 		"id": 3,
@@ -52,5 +54,27 @@
 		"thumbnail": "./imagen6.png",
 		"code": "abctyer123",
 		"stock": 29
+	},
+	{
+		"id": 7,
+		"title": "titulo desde addP",
+		"description": "descripcion",
+		"code": "codigo888",
+		"price": 10000,
+		"status": true,
+		"stock": 100,
+		"category": "categoria",
+		"thumbnail": "/link"
+	},
+	{
+		"id": 8,
+		"title": "titulo desde addP-2",
+		"description": "descripcion",
+		"code": "codigo88188",
+		"price": 10000,
+		"status": true,
+		"stock": 100,
+		"category": "categoria",
+		"thumbnail": "/link"
 	}
 ]
