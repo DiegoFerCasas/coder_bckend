@@ -20,7 +20,7 @@ class CartManager {
   #autoId = async () => {
     try {
       const itemList = await this.keepReading();
-      if (itemList.lenght === 0) {
+      if (itemList.length === 0) {
         return 1;
       } else {
         return itemList.at(-1).id + 1;
@@ -47,7 +47,7 @@ class CartManager {
   addCart = async () => {
     const itemsCart = await this.keepReading();
     const newCart = {
-      id: this.#autoId(),
+      id: await this.#autoId(),
       products: [],
     };
     itemsCart.push(newCart);

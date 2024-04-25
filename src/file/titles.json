@@ -65,5 +65,16 @@
 		"stock": 100,
 		"category": "categoria",
 		"thumbnail": "/link"
+	},
+	{
+		"id": 8,
+		"title": "titulo con correccion3",
+		"description": "descripcion con correccion3",
+		"code": "codigo88189284774",
+		"price": 10000,
+		"status": true,
+		"stock": 100,
+		"category": "categoria con correccion3",
+		"thumbnail": "/link con correccion3"
 	}
 ]

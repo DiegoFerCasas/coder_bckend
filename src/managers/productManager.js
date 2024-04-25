@@ -22,11 +22,11 @@ class ProductManager {
     #autoId = async () => {
         try {
             const productList = await this.keepReading()
-            if (productList.lenght === 0) {
+            this.#products = productList
+            if (this.#products.length === 0) {
                 return 1;
             } else {
-                return productList.at(-1).id + 1;
-
+                return this.#products.at(-1).id + 1;
             }
         } catch (error) { console.log(error) }
     }
