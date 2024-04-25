@@ -32,7 +32,7 @@ class ProductManager {
     }
 
 
-    getProducts = async () => {
+    getProducts = async (queryValue) => {
         try {
             const readTitles = await this.keepReading()
             return readTitles

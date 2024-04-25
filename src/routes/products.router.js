@@ -6,8 +6,17 @@ const product = new ProductManager();
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const allProducts = await product.getProducts();
-  res.send(allProducts);
+  const { limit } = req.query
+  try { 
+    const allProducts = await product.getProducts(); 
+
+    if (!limit || limit <= '0'){return res.send(allProducts)}else{
+      const limitValue = allProducts.splice(0,limit)
+      res.status(200).send({ status: "success", limitValue });
+    }
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message })
+  }
 });
 
 router.get("/:pid", async (req, res) => {
@@ -20,7 +29,6 @@ router.get("/:pid", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newProduct = await product.addProduct(req.body);
-    console.log(newProduct)
     res.status(200).send({ status: "success", newProduct });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
@@ -39,7 +47,7 @@ router.put("/:pid", async (req, res) => {
 router.delete("/:pid", async (req, res) => {
   try {
     const deletedProduct = await product.deleteProduct();
-    res.send({ status: "success", payload:deletedProduct });
+    res.send({ status: "success", payload: deletedProduct });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
   }
