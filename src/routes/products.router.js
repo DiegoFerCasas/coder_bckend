@@ -39,19 +39,25 @@ router.put("/:pid", async (req, res) => {
   const { pid } = req.params
   try {
     const listProducts = await product.getProducts()
-    const found = listProducts.find(e=>e.id === parseInt(pid))
-    if(found)
-    {const updtProduct = await product.updateProduct(req.params, req.body);
-    res.send({ status: "success", updtProduct });}else{res.status(400).json({ status: "error", message: 'No existe el ID' })}
+    const found = listProducts.find(e => e.id === parseInt(pid))
+    if (found) {
+      const updtProduct = await product.updateProduct(req.params, req.body);
+      res.send({ status: "success", updtProduct });
+    } else { res.status(400).json({ status: "error", message: 'No existe el ID' }) }
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
   }
 });
 
 router.delete("/:pid", async (req, res) => {
+  const { pid } = req.params
   try {
-    const deletedProduct = await product.deleteProduct();
-    res.send({ status: "success", payload: deletedProduct });
+const listProducts = await product.getProducts()
+const found = listProducts.find(e=>e.id === parseInt(pid))
+if (found){const deletedProduct = await product.deleteProduct();
+  res.send({ status: "success", payload: deletedProduct });}else{
+    res.status(400).json({ status: "error", message: 'No existe el ID' })
+  }
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
   }
