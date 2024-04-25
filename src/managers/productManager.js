@@ -75,7 +75,7 @@ class ProductManager {
         const { title, description, code, price, status = true, stock, category, thumbnail } = obj
         if (title === undefined || description === undefined || code === undefined || price === undefined || status === undefined || stock === undefined || category === undefined || thumbnail === undefined) {
             return 'ingrese todos los datos para su actualización'
-        } else {
+        } else{
             const titles = await this.keepReading()
             const titleFound = titles.map((element) => {
                 if (element.id === parseInt(pid)) {

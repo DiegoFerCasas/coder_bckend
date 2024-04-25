@@ -68,13 +68,13 @@
 	},
 	{
 		"id": 8,
-		"title": "titulo desde addP-2",
-		"description": "descripcion",
-		"code": "codigo88188",
+		"title": "titulo con correccion2",
+		"description": "descripcion con correccion2",
+		"code": "codigo881892844",
 		"price": 10000,
 		"status": true,
 		"stock": 100,
-		"category": "categoria",
-		"thumbnail": "/link"
+		"category": "categoria con correccion2",
+		"thumbnail": "/link con correccion2"
 	}
 ]
