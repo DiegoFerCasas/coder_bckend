@@ -62,7 +62,6 @@ class ProductManager {
                     thumbnail
                 }
                 titles.push(newProduct)
-                console.log(titles)
                 await fs.promises.writeFile(this.#path, JSON.stringify(titles, null, '\t'), 'utf-8')
                 return titles
             }
