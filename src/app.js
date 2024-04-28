@@ -7,19 +7,24 @@ import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
 
 const app = express();
+const httpServer = app.listen(8080, (error) => {
+    console.log("escuchando puerto 8080");
+});
+const socketServer = new Server(httpServer)
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
 
 app.engine('handlebars', hbs.engine()) // metodo para el motor de plantillas 
-app.set('views', __dirname+'/views') // confiuracion para las vistas
+app.set('views', __dirname + '/views') // confiuracion para las vistas
 app.set('view engine', 'handlebars')
 
 
 
-app.use('/upload-file', uploader.single('myFile'), (req, res) => { 
-    if(!req.file){
+app.use('/upload-file', uploader.single('myFile'), (req, res) => {
+    if (!req.file) {
         return res.send('no se pudo subir eso')
     }
     res.send('archivo arriba')
@@ -33,7 +38,24 @@ app.use((error, req, res, next) => {
     res.status(500).send('error 500 en el server')
 })
 
+socketServer.on('connection', socket => {
+    console.log('cliente on')
 
-app.listen(8080, (error) => {
-    console.log("escuchando puerto 8080");
-});
+    // socket.on('message', data=>{
+    //     console.log(data)
+    // })
+
+    // socket.emit('socket_individual', 'este msj solo lo recibe este socket')
+
+    // socket.broadcast.emit('para_todos_menos_el_actual', 'este eveto lo resibe todos los sockjet menos el actual' )
+
+    // socketServer.emit('evetnos_para_todos', 'este mjs lo reciebn todos inclucive el actual')
+
+    const messages = []
+    socket.on ('mensaje_cliente', data=>{
+        console.log(data)
+        messages.push ({id:socket.id, message:data})
+        socketServer.emit('messageServer', messages)
+    })
+})
+
