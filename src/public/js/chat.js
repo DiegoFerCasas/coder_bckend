@@ -1,3 +1,5 @@
+console.log ("hola")
+
 const socket = io()
 
 const  input = document.querySelector('#message')

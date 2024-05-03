@@ -2,7 +2,7 @@ import express from 'express'
 import productsRouter from './routes/products.router.js'
 import cartRouter from './routes/cart.router.js';
 import { __dirname, uploader } from './utils.js';
-import hbs from 'express-handlebars'
+import handlebars from 'express-handlebars'
 import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
 
@@ -17,9 +17,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
 
-app.engine('handlebars', hbs.engine()) // metodo para el motor de plantillas 
-app.set('views', __dirname + '/views') // confiuracion para las vistas
-app.set('view engine', 'handlebars')
+app.engine('hbs', handlebars.engine({
+    extname: '.hbs'
+})) // metodo para el motor de plantillas 
+app.set('views', __dirname +'/views') // confiuracion para las vistas
+app.set('view engine', 'hbs')
 
 
 
@@ -56,6 +58,11 @@ socketServer.on('connection', socket => {
         console.log(data)
         messages.push ({id:socket.id, message:data})
         socketServer.emit('messageServer', messages)
+    })
+
+    socket.on("rtp_connected", (data)=>{
+        console.log(data)
+
     })
 })
 
