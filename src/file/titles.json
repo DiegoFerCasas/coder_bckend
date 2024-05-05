@@ -76,5 +76,27 @@
 		"stock": 100,
 		"category": "categoria con correccion3",
 		"thumbnail": "/link con correccion3"
+	},
+	{
+		"id": 9,
+		"title": "titulo enviado desde el form",
+		"description": "decripcion del form",
+		"code": "form001",
+		"price": "89003",
+		"status": true,
+		"stock": "32",
+		"category": "category form",
+		"thumbnail": "/una.imagen.form"
+	},
+	{
+		"id": 10,
+		"title": "titulo enviado desde el form -2 ",
+		"description": "descripcion prueba 2 form",
+		"code": "form002",
+		"price": "89004",
+		"status": true,
+		"stock": "35",
+		"category": "category form-2",
+		"thumbnail": "/una.imagen.form2"
 	}
 ]

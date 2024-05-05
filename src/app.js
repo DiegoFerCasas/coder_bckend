@@ -5,6 +5,7 @@ import { __dirname, uploader } from './utils.js';
 import handlebars from 'express-handlebars'
 import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
+import ProductManager from './managers/productManager.js';
 
 const app = express();
 const httpServer = app.listen(8080, (error) => {
@@ -20,7 +21,7 @@ app.use(express.static(__dirname + '/public'))
 app.engine('hbs', handlebars.engine({
     extname: '.hbs'
 })) // metodo para el motor de plantillas 
-app.set('views', __dirname +'/views') // confiuracion para las vistas
+app.set('views', __dirname + '/views') // confiuracion para las vistas
 app.set('view engine', 'hbs')
 
 
@@ -40,7 +41,11 @@ app.use((error, req, res, next) => {
     res.status(500).send('error 500 en el server')
 })
 
-socketServer.on('connection', socket => {
+
+
+const products = new ProductManager()
+
+socketServer.on('connection', async (socket) => {
     console.log('cliente on')
 
     // socket.on('message', data=>{
@@ -54,14 +59,19 @@ socketServer.on('connection', socket => {
     // socketServer.emit('evetnos_para_todos', 'este mjs lo reciebn todos inclucive el actual')
 
     const messages = []
-    socket.on ('mensaje_cliente', data=>{
+    socket.on('mensaje_cliente', data => {
         console.log(data)
-        messages.push ({id:socket.id, message:data})
+        messages.push({ id: socket.id, message: data })
         socketServer.emit('messageServer', messages)
     })
 
-    socket.on("rtp_connected", (data)=>{
-        console.log(data)
+    const productList = await products.getProducts()
+    socketServer.emit("rtp_connected", productList)
+
+    socket.on("addProduct", async (value) => {
+        await products.addProduct(value)
+        const productList = await products.getProducts()
+        socketServer.emit("rtp_connected", productList)
 
     })
 })

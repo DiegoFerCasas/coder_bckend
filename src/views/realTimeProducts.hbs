@@ -1,5 +1,63 @@
 <main>
     <h1>Real time Products</h1>
+    <div id="rtpList">
+        <ul id="rtsViewContainer">
+
+        </ul>
+    </div>
+    <div>
+        <form id="formRtp">
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="title" name="title" class="form-control" />
+                        <label class="form-label" for="title">Title</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <divclass="form-outline">
+                        <input type="text" id="code" name="code" class="form-control" />
+                        <label class="form-label" for="code">Code</label>
+                </div>
+                <div class="col">
+                    <divclass="form-outline">
+                        <input type="number" id="price" name="price" class="form-control" />
+                        <label class="form-label" for="price">Price</label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="number" id="stock" name="stock" class="form-control" />
+                        <label class="form-label" for="stock">Stock</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <divclass="form-outline">
+                        <input type="text" id="category" name="category" class="form-control" />
+                        <label class="form-label" for="category">Category</label>
+                </div>
+                <div class="col">
+                    <divclass="form-outline">
+                        <input type="text" id="thumbnail" name="thumbnail" class="form-control" />
+                        <label class="form-label" for="thumbnail">Thumbnail</label>
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                <label class="form-label" for="description">Description</label>
+            </div>
+
+            <div class="form-check d-flex justify-content-center mb-4">
+                <input class="form-check-input me-2" type="checkbox" value="true" id="status" name="status" checked />
+                <label class="form-check-label" for="status"> Status </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+        </form>
+
+    </div>
 </main>
 <script src="socket.io/socket.io.js"></script>
 <script src="/js/rtp.js"></script>
