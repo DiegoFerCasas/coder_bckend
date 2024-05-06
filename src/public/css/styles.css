@@ -15,11 +15,11 @@ h1 {
     margin: 3rem
 }
 
-#formularioRtp {
+#formRtp {
     margin: 3rem;
 }
 
-#formularioRtp .form-control {
+#formRtp .form-control {
     border-color: black;
 
 }

@@ -98,5 +98,16 @@
 		"stock": "35",
 		"category": "category form-2",
 		"thumbnail": "/una.imagen.form2"
+	},
+	{
+		"id": 11,
+		"title": "esto es un libro desde el form -9",
+		"description": "eseto es unaprueba ",
+		"code": "form021",
+		"price": "5865",
+		"status": true,
+		"stock": "54",
+		"category": "lo que sea",
+		"thumbnail": "/jhkjhdf.ldkjlfk"
 	}
 ]

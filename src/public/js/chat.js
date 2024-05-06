@@ -1,32 +1,44 @@
-console.log ("hola")
 
 const socket = io()
+let user
 
-const  input = document.querySelector('#message')
+let chatBox = document.querySelector("#chatBox")
+
+Swal.fire({
+    title: 'Igrese su nombre',
+    input: 'text',
+    text: 'Ingresa tu usuario para identicarte en el chat',
+    inputValidator: value => {
+        return !value && 'Pon el usuario para continuar'
+    },
+    allowOutsideClick: false,
+    icon: 'success',
+})
+    .then(result => {
+        user = result.value
+    })
+
+chatBox.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+        if (chatBox.value.trim().length > 0) {
+            socket.emit('mensaje_cliente', { user, message: chatBox.value })
+            chatBox.value = ""
+        }
+    }
+})
 const messagesList = document.querySelector('#listMensajes')
 
-input.addEventListener('keyup', e=>{
-if (e.key === 'Enter'){
-    socket.emit('mensaje_cliente', input.value)
-    input.value =''
 
-}
+socket.on('messageServer', data => {
+    console.log(data)
 })
 
-socket.on ('messageServer',data=>{
-    console.log (data)
-})
 
-// socket.emit('message' , 'string de data')
 
-// socket.on('socket_individual', data=>{
-//     console.log(data)
-// })
 
-// socket.on('para_todos_menos_el_actual', data=>{
-//     console.log(data)
-// })
 
-// socket.on('evetnos_para_todos', data=>{
-//     console.log(data)
-// })
+
+
+
+
+
