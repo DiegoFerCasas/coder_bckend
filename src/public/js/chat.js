@@ -29,8 +29,17 @@ chatBox.addEventListener('keyup', e => {
 const messagesList = document.querySelector('#listMensajes')
 
 
-socket.on('messageServer', data => {
-    console.log(data)
+socket.on('messageLogs', data => {
+    let log = document.querySelector('#messagesLog')
+
+    let messages = ''
+    data.forEach(element => {
+        console.log(element)
+        messages += `${element.user} - Dice: ${element.message}</br>`
+
+    });
+    log.innerHTML=messages
+
 })
 
 

@@ -7,20 +7,33 @@ import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
 import ProductManager from './managers/productManager.js';
 
+import mongoose from 'mongoose';
+import userRouter from './routes/users.router.js';
+
 const app = express();
 
 const httpServer = app.listen(8080, (error) => {
     console.log("escuchando puerto 8080");
 });
-const socketServer = new Server(httpServer)
+const io = new Server(httpServer)
 
+function chatSocket  (io){
+    return (req,res,next)=>{
+        req.io = io
+        next()
+    }
+    }
+    
+    chatSocket(io)
 
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
-
+//mongoose.connect('mongodb://127.0.0.1:27017/ecommerce') //base de datos local
+mongoose.connect('mongodb+srv://dfercasas:ISG1dFUdEg5cpOHT@cluster0.yqs1z7n.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0')
+console.log("db conectada")
 
 
 app.engine('hbs', handlebars.engine({
@@ -29,7 +42,7 @@ app.engine('hbs', handlebars.engine({
 app.set('views', __dirname + '/views') // confiuracion para las vistas
 app.set('view engine', 'hbs')
 
-
+app.use(chatSocket(io))
 
 app.use('/upload-file', uploader.single('myFile'), (req, res) => {
     if (!req.file) {
@@ -38,6 +51,7 @@ app.use('/upload-file', uploader.single('myFile'), (req, res) => {
     res.send('archivo arriba')
 })
 app.use('/', viewRouter)
+app.use('/api/users', userRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/cart', cartRouter)
 
@@ -48,23 +62,31 @@ app.use((error, req, res, next) => {
 
 const products = new ProductManager()
 
-socketServer.on('connection', async (socket) => {
+
+
+
+io.on('connection', async (socket) => {
     console.log('cliente on')
     const messages = []
+
     socket.on('mensaje_cliente', data => {
-        console.log(data)
-        messages.push({ id: socket.id, message: data })
-        socketServer.emit('messageServer', messages)
+        messages.push(data)
+        io.emit('messageLogs', messages)
+
+
     })
 
+
     const productList = await products.getProducts()
-    socketServer.emit("rtp_connected", productList)
+    io.emit("rtp_connected", productList)
 
     socket.on("addProduct", async (value) => {
         await products.addProduct(value)
         const productList = await products.getProducts()
-        socketServer.emit("rtp_connected", productList)
+        io.emit("rtp_connected", productList)
 
     })
 })
+
+// mongodb+srv://dfercasas:<password>@cluster0.yqs1z7n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 

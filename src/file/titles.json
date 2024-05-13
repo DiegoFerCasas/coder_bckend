@@ -109,5 +109,27 @@
 		"stock": "54",
 		"category": "lo que sea",
 		"thumbnail": "/jhkjhdf.ldkjlfk"
+	},
+	{
+		"id": 12,
+		"title": "titulo de prueba 1",
+		"description": "bla bla bla ",
+		"code": "codigodeprueba1",
+		"price": "588",
+		"status": true,
+		"stock": "9",
+		"category": "libro",
+		"thumbnail": "/es.es"
+	},
+	{
+		"id": 13,
+		"title": "otro titulo",
+		"description": "descripcion de prueba",
+		"code": "otrocodig34",
+		"price": "3421",
+		"status": true,
+		"stock": "45",
+		"category": "lo que sea",
+		"thumbnail": "/jfdlfj.kkdf"
 	}
 ]
