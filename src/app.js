@@ -1,14 +1,14 @@
 import express from 'express'
 import productsRouter from './routes/products.router.js'
 import cartRouter from './routes/cart.router.js';
+import userRouter from './routes/users.router.js';
 import { __dirname, uploader } from './utils.js';
 import handlebars from 'express-handlebars'
 import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
-import ProductManager from './managers/productManager.js';
+import ProductManager from './dao/productManagerFs.js';
+import  connectDB  from './config/server.js';
 
-import mongoose from 'mongoose';
-import userRouter from './routes/users.router.js';
 
 const app = express();
 
@@ -17,23 +17,24 @@ const httpServer = app.listen(8080, (error) => {
 });
 const io = new Server(httpServer)
 
-function chatSocket  (io){
-    return (req,res,next)=>{
+function chatSocket(io) {
+    return (req, res, next) => {
         req.io = io
         next()
     }
-    }
-    
-    chatSocket(io)
+}
+
+chatSocket(io)
 
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
+connectDB()
 //mongoose.connect('mongodb://127.0.0.1:27017/ecommerce') //base de datos local
-mongoose.connect('mongodb+srv://dfercasas:ISG1dFUdEg5cpOHT@cluster0.yqs1z7n.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0')
-console.log("db conectada")
+//mongoose.connect('mongodb+srv://dfercasas:ISG1dFUdEg5cpOHT@cluster0.yqs1z7n.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0')
+//console.log("db conectada")
 
 
 app.engine('hbs', handlebars.engine({

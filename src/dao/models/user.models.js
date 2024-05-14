@@ -1,11 +1,3 @@
-// import mongoose from "mongoose";
-
-// const userCollection = 'usuarios'
-
-// const userSchema = new mongoose.Schema({
-
-// }) ES LO MISMO QUE --> CON DESTRUCTURING
-
 import { Schema, model } from "mongoose";
 
 const userCollection = 'users'
