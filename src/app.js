@@ -6,7 +6,8 @@ import { __dirname, uploader } from './utils.js';
 import handlebars from 'express-handlebars'
 import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
-import ProductManager from './dao/productManagerFs.js';
+//import ProductManager from './dao/productManagerFs.js';
+import ProductManagerMongo from './dao/productManagerMdb.js';
 import  connectDB  from './config/server.js';
 
 
@@ -61,7 +62,7 @@ app.use((error, req, res, next) => {
     res.status(500).send('error 500 en el server')
 })
 
-const products = new ProductManager()
+const products = new ProductManagerMongo()
 
 
 

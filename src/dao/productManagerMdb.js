@@ -1,75 +1,59 @@
-import { productModel } from "./models/products.model";
+import { productModel as productsModel } from "./models/products.model.js";
 
-class ProductManagerDb {
+class ProductManagerMongo {
 
-    getProducts = async (queryValue) => {
+    getProducts = async () => {
         try {
-            return await productModel.find({})
-        } catch (error) { console.log(error) }
+            return await productsModel.find({}).lean()
+        }
+        catch (error) {
+            return error
+        }
     }
-
-    getProductById = async (value) => {
+    /**
+     * 
+     * @param {String} id 
+     * @returns 
+     */
+    getProductById = async (id) => {
         try {
-            const found = await productModel.findById(value)
-            if (found !== undefined) {
-                return found
-            } return 'Title not found'
-        } catch (error) { console.log(error) }
+            return await productsModel.findById(id)
+        } catch (error) {
+            return { error: error.message }
+        }
+
     }
 
     addProduct = async (product) => {
-        const { title, description, code, price, status, stock, category, thumbnail } = product
-        if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) { return 'ingrese todos los datos ' } else {
-            let validator = product.code
+        if (await productsModel.find({ code: product.code })) {
+            console.log("Error el código ya existe")
+        }
+        try {
+            await productsModel.create(product)
+            return await productsModel.findOne({ title: product.title })
 
-            if (await productModel.find({ code: validator })) {
-                console.log("ERROR, el código ya existe")
-            } else {
-                const newProduct = {
-                    title,
-                    description,
-                    code,
-                    price,
-                    status: true,
-                    stock,
-                    category,
-                    thumbnail
-                }
-                const result = await productModel.create(newUser)
-                res.status(200).send({ status: 'sucess', payload: result })
-            }
+        } catch (error) {
+            return error
         }
     }
 
-
-updateProduct = async (value, obj) => {
-    const { pid } = value
-    const { title, description, code, price, status = true, stock, category, thumbnail } = obj
-    if (!title, !description, !code, !price,  !stock, !category, !thumbnail) {
-        return 'ingrese todos los datos para su actualización'
-    } else{
-        const titles = await this.keepReading()
-        const titleFound = titles.map((element) => {
-            if (element.id === parseInt(pid)) {
-                const updatedProduct = {
-                    ...element,
-                    title,
-                    description,
-                    code,
-                    price,
-                    status: true,
-                    stock,
-                    category,
-                    thumbnail
-                }
-                return updatedProduct
-            } else {
-                return element
-            }
-        })
-        await fs.promises.writeFile(this.#path, JSON.stringify(titleFound, null, '\t'), 'utf-8')
+    updateProduct = async (id, product) => {
+        try {
+            return await productsModel.findByIdAndUpdate(id, { $set: product })
+        } catch (error) {
+            return error
+        }
     }
+
+    deleteProduct = async (value) => {
+        try {
+            return await productsModel.findByIdAndDelete(value)
+        } catch (error) {
+            return error
+        }
+    }
+
 }
 
 
-}
+export default ProductManagerMongo

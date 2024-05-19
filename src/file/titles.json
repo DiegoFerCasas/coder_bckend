@@ -131,5 +131,16 @@
 		"stock": "45",
 		"category": "lo que sea",
 		"thumbnail": "/jfdlfj.kkdf"
+	},
+	{
+		"id": 14,
+		"title": "El camino de los reyes",
+		"description": "El camino de los reyes es una novela de fantasía épica escrita por el autor estadounidense Brandon Sanderson y el primer libro de la saga El archivo de las tormentas.",
+		"code": "StrFil101",
+		"price": "59000",
+		"status": true,
+		"stock": "16",
+		"category": "fantasy",
+		"thumbnail": "https://www.bing.com/images/search?view=detailV2&ccid=2x4xiE8r&id=A0A849A561F74326F40D5E09E7E15393EDA48AA2&thid=OIP.2x4xiE8rRhsfT_z9o5fc8AHaLV&mediaurl=https%3a%2f%2f1.bp.blogspot.com%2f-oPfP3P1WUQ4%2fVuVUpmxV2oI%2fAAAAAAAAN28%2fGL01nNiMcqUtGdBMyYT8I9ywVba1N_XUA%2fs1600%2fbook039.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.db1e31884f2b461b1f4ffcfda397dcf0%3frik%3dooqk7ZNT4ecJXg%26pid%3dImgRaw%26r%3d0&exph=1600&expw=1045&q=el+camino+de+los+reyes&simid=607993324911158474&FORM=IRPRST&ck=506BE4B37EF0FF3EB3EC39D591905617&selectedIndex=0&itb=0"
 	}
 ]

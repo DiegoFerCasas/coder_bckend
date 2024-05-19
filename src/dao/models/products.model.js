@@ -1,11 +1,14 @@
-import { Schema, model } from mongoose;
+import { Schema, model } from "mongoose";
 
 const productCollection = 'titles'
 
 const productSchema = new Schema({
     title: String,
     description: String,
-    code: String,
+    code: {
+        type:String,
+        unique:true
+    },
     price: Number,
     status: Boolean,
     stock: Number,

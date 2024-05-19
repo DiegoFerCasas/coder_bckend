@@ -1,7 +1,8 @@
-import ProductManager from "../managers/productManager.js"
+//import ProductManager from "../managers/productManager.js"
+import productManagerMongo from "../dao/productManagerMdb.js"
 import { __dirname } from "../utils"
 
-const products =new ProductManager()
+const products =new productManagerMongo()
 
 
 const productsSocket = (io) => {
