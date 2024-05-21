@@ -5,9 +5,9 @@ let user
 let chatBox = document.querySelector("#chatBox")
 
 Swal.fire({
-    title: 'Igrese su nombre',
+    title: 'Ingrese su Email',
     input: 'text',
-    text: 'Ingresa tu usuario para identicarte en el chat',
+    text: 'Ingresa tu Email para identicarte en el chat',
     inputValidator: value => {
         return !value && 'Pon el usuario para continuar'
     },
@@ -38,7 +38,7 @@ socket.on('messageLogs', data => {
         messages += `${element.user} - Dice: ${element.message}</br>`
 
     });
-    log.innerHTML=messages
+    log.innerHTML = messages
 
 })
 

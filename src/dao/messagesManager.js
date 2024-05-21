@@ -1,6 +1,6 @@
-import { chatModel } from "./models/messages.models";
+import { chatModel } from "./models/messages.models.js";
 
-class messageManagerMongo {
+class MessageManagerMongo {
 
     getMessages = async () => {
         try {
@@ -11,9 +11,6 @@ class messageManagerMongo {
     }
 
     addMessages = async (message) => {
-        if (message.user.trim() === '' || message.message.trim() === '') {
-            return null
-        }
         try {
             return await chatModel.create(message)
         } catch (error) {
@@ -31,3 +28,5 @@ class messageManagerMongo {
     }
 
 }
+
+export default MessageManagerMongo

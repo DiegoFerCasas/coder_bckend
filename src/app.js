@@ -8,6 +8,7 @@ import viewRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
 //import ProductManager from './dao/productManagerFs.js';
 import ProductManagerMongo from './dao/productManagerMdb.js';
+import MessageManagerMongo from './dao/messagesManager.js';
 import  connectDB  from './config/server.js';
 
 
@@ -64,17 +65,16 @@ app.use((error, req, res, next) => {
 
 const products = new ProductManagerMongo()
 
-
+const chats = new MessageManagerMongo()
 
 
 io.on('connection', async (socket) => {
     console.log('cliente on')
-    const messages = []
+    //const messages = await chats.getMessages()
 
-    socket.on('mensaje_cliente', data => {
-        messages.push(data)
-        io.emit('messageLogs', messages)
-
+    socket.on('mensaje_cliente',async (data) => {
+        await chats.addMessages(data)
+        io.emit('messageLogs', await chats.getMessages())
 
     })
 
