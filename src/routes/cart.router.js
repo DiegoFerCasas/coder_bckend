@@ -1,11 +1,16 @@
 import { Router } from "express";
-import CartManager from "../dao/cartManager.js";
+//import CartManager from "../dao/cartManager.js";
+import CartManagerMongo from "../dao/cartManagerMdb.js";
 
-const cart = new CartManager();
+
+const cart = new CartManagerMongo();
 
 const cartRouter = Router();
 
-
+cartRouter.get("/", async (req, res) => {
+  const allCart = await cart.getCarts();
+  res.send({ status: "success", allCart });
+});
 
 
 cartRouter.get("/:cid", async (req, res) => {
@@ -24,8 +29,8 @@ res.status(200).json({ status: "success", newCart })
 
 cartRouter.post("/:cid/products/:pid", async (req, res) => {
   try {
-    const cid = parseInt(req.params.cid);
-    const pid = parseInt(req.params.pid);
+    const cid = req.params.cid;
+    const pid = req.params.pid;
 
     await cart.addCartProduct(cid, pid);
     res.send({ status: "success", message: "Product added to cart successfully." });

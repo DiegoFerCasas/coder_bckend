@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const cartCollection = 'users'
+const cartCollection = 'carts'
 
 const cartSchema = new Schema({
 
