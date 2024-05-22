@@ -4,7 +4,7 @@ const chat = new MessageManagerMongo();
 
 const chatSocket = (io) => {
   io.on("connection", async (socket) => {
-    console.log("Connected to chat");
+    console.log("Connected");
 
     socket.on("mensaje_cliente", async (data) => {
         await chat.addMessages(data);
