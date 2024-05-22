@@ -1,4 +1,4 @@
-import { productModel as productsModel } from "./models/products.model.js";
+import { productModel as productsModel } from "../models/products.model.js";
 
 class ProductManagerMongo {
 
