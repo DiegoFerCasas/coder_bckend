@@ -1,6 +1,6 @@
 import { Router } from "express";
 //import CartManager from "../dao/cartManager.js";
-import CartManagerMongo from '../dao/dbManagers/cartManagerMdb.js'
+import CartManagerMongo from "../dao/dbManagers/cartManagerMdb.js";
 
 const cart = new CartManagerMongo();
 
@@ -11,7 +11,6 @@ cartRouter.get("/", async (req, res) => {
   res.send({ status: "success", allCart });
 });
 
-
 cartRouter.get("/:cid", async (req, res) => {
   const { cid } = req.params;
   const value = cid;
@@ -19,12 +18,10 @@ cartRouter.get("/:cid", async (req, res) => {
   res.send({ status: "success", cartbyId });
 });
 
-
 cartRouter.post("/", async (req, res) => {
-  const newCart = await cart.addCart()
-  res.status(200).json({ status: "success", newCart })
-})
-
+  const newCart = await cart.addCart();
+  res.status(200).json({ status: "success", newCart });
+});
 
 cartRouter.post("/:cid/products/:pid", async (req, res) => {
   try {
@@ -32,10 +29,15 @@ cartRouter.post("/:cid/products/:pid", async (req, res) => {
     const pid = req.params.pid;
 
     await cart.addCartProduct(cid, pid);
-    res.send({ status: "success", message: "Product added to cart successfully." });
+    res.send({
+      status: "success",
+      message: "Product added to cart successfully.",
+    });
   } catch (error) {
     console.error("Error adding product to cart:", error);
-    res.status(500).json({ status: "error", message: "Failed to add product to cart." });
+    res
+      .status(500)
+      .json({ status: "error", message: "Failed to add product to cart." });
   }
 });
 
@@ -44,26 +46,52 @@ cartRouter.delete("/:cid/products/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
 
-    await cart.deleteCartProduct(cid, pid)
-    res.send({ status: "success", message: "Product deleted form cart successfully." })
-
+    await cart.deleteCartProduct(cid, pid);
+    res.send({
+      status: "success",
+      message: "Product deleted form cart successfully.",
+    });
   } catch (error) {
     console.error("Error when try to delete the product on the cart:", error);
-    res.status(500).json({ status: "error", message: "Failed to delete product from cart." })
+    res.status(500).json({
+      status: "error",
+      message: "Failed to delete product from cart.",
+    });
   }
-})
+});
+
+cartRouter.put("/:cid/products/:pid", async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+    const { quantity } = req.body;
+
+
+    if (!quantity) return res.status(404).json({ status: "error", message: "La cantidad es obligatoria" })
+
+    const uptcart = await cart.modifyOrderQuantity(cid, pid, quantity);
+
+    if (!uptcart) return res.status(404).json({ status: "error", message: "No se pudo realizar la actualización" })
+    res.send({ status: "success", message: " cart modified successfully.", uptcart });
+
+  } catch (error) {
+    console.error("Error when try to delete  the cart:", error);
+    res.status(500).json({ status: "error", message: "Failed to update cart." });
+  }
+});
 
 cartRouter.delete("/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
 
-    await cart.deleteCart(cid)
+    await cart.deleteCart(cid);
 
-    res.send({ status: "success", message: " cart deleted successfully." })
+    res.send({ status: "success", message: " cart deleted successfully." });
   } catch (error) {
     console.error("Error when try to delete  the cart:", error);
-    res.status(500).json({ status: "error", message: "Failed to delete cart." })
+    res
+      .status(404)
+      .json({ status: "error", message: "Failed to delete cart." });
   }
-})
+});
 
 export default cartRouter;
