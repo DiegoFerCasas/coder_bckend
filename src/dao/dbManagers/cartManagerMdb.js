@@ -1,9 +1,16 @@
 import { cartModel } from "../models/carts.models.js";
 
 class CartManagerMongo {
+
+  constructor() {
+    this.model = cartModel
+  }
+
   getCarts = async () => {
     try {
-      return await cartModel.find({}).lean();
+      console.log("hola")
+      console.log(await this.model.find({}).lean())
+      return await this.model.find({}).lean();
     } catch (error) {
       return error;
     }
@@ -26,21 +33,36 @@ class CartManagerMongo {
   };
 
   addCartProduct = async (cid, pid) => {
-    
-      const product = await cartModel.findOne({ _id: cid });
-      console.log (product)
-      const pIndex = product.products.findIndex((element) => element.pid === pid);
 
-      if (pIndex != -1) {
-        product.products[pIndex].quantity++;
-        await product.save();
-       
-      } else {
-        product.products.push({ pid: pid, quantity: 1 });
-        await product.save();
-      }
-    
+    const cart = await this.model.findOne({ _id: cid });
+    console.log(cart)
+
+    const i = cart.products.findIndex(e => e.product == pid)
+    console.log(i)
+    if (i != -1) {
+      cart.products[i].quantity++
+      const resp = await this.model.findByIdAndUpdate({ _id: cid }, cart)
+    }
+    else {
+      cart.products.push({ product: pid, quantity: 1 })
+      const resp = await this.model.findByIdAndUpdate({ _id: cid }, cart)
+    }
+
   };
+
+  deleteCartProduct = async (cid, pid) => await this.model.findByIdAndUpdate(
+    { _id: cid },
+    { $pull: { products: { product: pid } } },
+    { new: true }
+  )
+
+  deleteCart = async (cid) => await this.model.findByIdAndUpdate(
+    { _id: cid },
+    { $set: { products: [] } },
+    { new: true }
+  )
+
+
 }
 
 export default CartManagerMongo;

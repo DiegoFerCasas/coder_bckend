@@ -10,6 +10,12 @@ import connectDB from "./config/server.js";
 import productsSocket from "./utils/rtmSocket.js";
 import chatSocket from "./utils/chatSocket.js";
 
+// import session from "express-session";
+// import MongoStore from "connect-mongo";
+
+// import passport from "passport";
+// import { initPassport } from "./config/passport.config.js";
+
 const app = express();
 
 const httpServer = app.listen(8080, (error) => {
@@ -46,6 +52,7 @@ app.use("/", viewRouter);
 app.use("/api/users", userRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter);
+//app.use("/api/sessions", j)
 
 app.use((error, req, res, next) => {
   console.log(error);
