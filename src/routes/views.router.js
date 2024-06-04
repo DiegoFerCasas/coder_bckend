@@ -1,13 +1,31 @@
-import { Router } from "express";
+import { response, Router } from "express";
 //import ProductManager from "../dao/productManagerFs.js"
 import ProductManagerMongo from "../dao/dbManagers/productManagerMdb.js";
+import CartManagerMongo from "../dao/dbManagers/cartManagerMdb.js";
 
 const viewRouter = Router()
 const products = new ProductManagerMongo()
+const carts = new CartManagerMongo()
 
 viewRouter.get('/', async (req, res) => {
     const productList = await products.getProducts()
     res.render('home', { productList })
+})
+
+viewRouter.get('/products', async (req, res) => {
+
+    const { limit, numPage, sortOrder, query } = req.query
+
+    const { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await products.getProductsView({ limit, numPage, sortOrder, query })
+
+    res.render('products', {
+        titles: docs,
+        page,
+        hasPrevPage,
+        hasNextPage,
+        prevPage,
+        nextPage
+    })
 })
 
 viewRouter.get('/chat', (req, res) => {
@@ -15,10 +33,17 @@ viewRouter.get('/chat', (req, res) => {
 
 })
 
-viewRouter.get('/realtimeproducts', (req,res)=>{
+viewRouter.get('/realtimeproducts', (req, res) => {
     res.render('realTimeProducts')
 })
 
+viewRouter.get('/cart/:cid', async (req, res) => {
+    const { cid } = req.params
+    const carrito = await carts.getCartById(cid)
+    console.log(carrito)
+    
+    return res.render('cart', { carrito })
+})
 
 
 export default viewRouter

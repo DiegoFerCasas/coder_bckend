@@ -15,8 +15,11 @@ const cartSchema = new Schema({
         ]
     }
 })
+
 cartSchema.pre('find', function () {
     this.populate('products.product')
 })
+
+
 
 export const cartModel = model(cartCollection, cartSchema)

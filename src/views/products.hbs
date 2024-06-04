@@ -1,0 +1,18 @@
+<main>
+    <h1>Draven's Bookstore</h1>
+    <div className='container'>
+        <div className='row d-flex titleCardContainer'>
+            {{#each titles }}
+            <p>{{this.title}} {{this.price}}</p> <button onclick="addToCart('{{this._id}}')">agregar</button> <hr>
+            {{/each}}
+        </div>
+    </div>
+    {{#if hasPrevPage}}
+    <a href="/products?numPage={{prevPage}}">Anterior</a>
+    {{/if}}
+
+    {{#if hasNextPage}}
+    <a href="/products?numPage={{nextPage}}">Siguiente</a>
+    {{/if}}
+</main>
+<script src="/js/products.js"></script>

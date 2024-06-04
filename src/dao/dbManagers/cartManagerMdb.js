@@ -17,7 +17,7 @@ class CartManagerMongo {
 
   getCartById = async (value) => {
     try {
-      return await cartModel.findById(value);
+      return await this.model.findById({_id:value}).lean();
     } catch (error) {
       return { error: error.message };
     }

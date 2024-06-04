@@ -5,11 +5,38 @@ class ProductManagerMongo {
     getProducts = async () => {
         try {
             return await productsModel.find({}).lean()
+
         }
         catch (error) {
             return error
         }
     }
+
+    getProductsView = async ({ limit = 10, numPage = 1, sortOrder, query }) => {
+
+        try {
+            if (query) {
+                query = JSON.parse(decodeURIComponent(query))
+                return await productsModel.paginate(query, { limit, page: numPage, lean: true })
+            }
+
+            sortOrder = parseInt(sortOrder)
+
+            if (!sortOrder) {
+                return await productsModel.paginate({}, { limit, page: numPage, lean: true })
+            }
+
+            else {
+                if (sortOrder === -1) return await productsModel.paginate({}, { limit, page: numPage, lean: true, sort: { price: -1 } })
+                return await productsModel.paginate({}, { limit, page: numPage, lean: true, sort: { price: 1 } })
+            }
+        }
+        catch (error) {
+            return error
+        }
+    }
+
+
     /**
      * 
      * @param {String} id 
