@@ -2,12 +2,14 @@
     <h1>carrito</h1>
     {{#each carrito.products}}
     <div>
-        <h3>{{this._id.title}}</h3>
-        {{!-- <ul>
-            <li>{{this.id.description}}</li>
-            <li>{{this.id.price}}</li>
-            <li>{{this.id.stock}}</li>
-        </ul> --}}
+        <h3>Titulo: {{this.product.title}}</h3>
+        <ul>
+            <li>Descripcion: {{this.product.description}}</li>
+            <li>Precio: {{this.product.price}}</li>
+            <li>Quedan: {{this.product.stock}}</li>
+        </ul>
+        <h3>Cantidad: {{this.quantity}}</h3>
+        <hr>
     </div>
     {{/each}}
 </main>

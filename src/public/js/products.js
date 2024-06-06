@@ -1,5 +1,5 @@
 function addToCart(productId){
-    const idCart = '6657f332ffea4b8776d94258';
+    const idCart = '6660ce359f7114037f9aa2e3';
     fetch(`api/cart/${idCart}/products/${productId}`,{
         method:'POST',
         headers:{

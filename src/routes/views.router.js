@@ -13,11 +13,9 @@ viewRouter.get('/', async (req, res) => {
 })
 
 viewRouter.get('/products', async (req, res) => {
-
     const { limit, numPage, sortOrder, query } = req.query
-
     const { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await products.getProductsView({ limit, numPage, sortOrder, query })
-
+    
     res.render('products', {
         titles: docs,
         page,
@@ -37,11 +35,24 @@ viewRouter.get('/realtimeproducts', (req, res) => {
     res.render('realTimeProducts')
 })
 
+// viewRouter.get('/cart/:cid', async (req, res) => {
+    
+// const {cid} = req.params
+// const {docs , page, hasNextPage,hasPrevPage, prevPage, nextPage}= await carts.getCartByIdView(cid) 
+// console.log(docs)
+// res.render ('cart', {
+//     carrito:docs,
+//     page,
+//     hasNextPage,
+//     hasPrevPage,
+//     prevPage,
+//     nextPage
+
+// })
+// })
 viewRouter.get('/cart/:cid', async (req, res) => {
     const { cid } = req.params
     const carrito = await carts.getCartById(cid)
-    console.log(carrito)
-    
     return res.render('cart', { carrito })
 })
 

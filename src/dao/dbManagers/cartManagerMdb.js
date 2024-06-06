@@ -7,17 +7,31 @@ class CartManagerMongo {
 
   getCarts = async () => {
     try {
-      console.log("hola");
-      console.log(await this.model.find({}).lean());
       return await this.model.find({}).lean();
     } catch (error) {
       return error;
     }
   };
-
+  
   getCartById = async (value) => {
     try {
-      return await this.model.findById({_id:value}).lean();
+      return await this.model
+        .findById(value)
+        .populate("products.product")
+        .lean();
+    } catch (error) {
+      return { error: error.message };
+    }
+  };
+
+  getCartByIdView = async (cid) => {
+    try {
+      if (cid) {
+        return await cartModel.paginate(
+          { _id: cid },
+          { lean: true, populate: { path: "products", select: "product" } }
+        );
+      }
     } catch (error) {
       return { error: error.message };
     }

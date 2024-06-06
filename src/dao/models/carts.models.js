@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const cartCollection = 'carts'
 
@@ -8,7 +9,7 @@ const cartSchema = new Schema({
         type: [{
             product: {
                 type: Schema.Types.ObjectId,
-                ref: 'titles'
+                ref: "titles"
             },
             quantity: Number
         }
@@ -17,9 +18,8 @@ const cartSchema = new Schema({
 })
 
 cartSchema.pre('find', function () {
-    this.populate('products.product')
+    this.populate({path:'products.product',select:"code"})
 })
-
-
+cartSchema.plugin(mongoosePaginate)
 
 export const cartModel = model(cartCollection, cartSchema)
