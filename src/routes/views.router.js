@@ -2,6 +2,7 @@ import { response, Router } from "express";
 //import ProductManager from "../dao/productManagerFs.js"
 import ProductManagerMongo from "../dao/dbManagers/productManagerMdb.js";
 import CartManagerMongo from "../dao/dbManagers/cartManagerMdb.js";
+import { auth } from "../middlewares/auth.middleware.js";
 
 const viewRouter = Router()
 const products = new ProductManagerMongo()
@@ -31,7 +32,7 @@ viewRouter.get('/chat', (req, res) => {
 
 })
 
-viewRouter.get('/realtimeproducts', (req, res) => {
+viewRouter.get('/realtimeproducts',auth,  (req, res) => {
     res.render('realTimeProducts')
 })
 
@@ -53,8 +54,15 @@ viewRouter.get('/realtimeproducts', (req, res) => {
 viewRouter.get('/cart/:cid', async (req, res) => {
     const { cid } = req.params
     const carrito = await carts.getCartById(cid)
-    return res.render('cart', { carrito })
+    return res.render('cart', { carrito, styles: 'cart.css'})
 })
+
+viewRouter.get('/login', async (req,res)=>{
+res.render('login',{styles:'login.css'})
+})
+viewRouter.get('/register', async (req,res)=>{
+    res.render('register',{styles:'register.css'})
+    })
 
 
 export default viewRouter

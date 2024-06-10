@@ -9,9 +9,11 @@ import { Server } from "socket.io";
 import connectDB from "./config/server.js";
 import productsSocket from "./utils/rtmSocket.js";
 import chatSocket from "./utils/chatSocket.js";
-
-// import session from "express-session";
-// import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import sessionsRouter from "./routes/sessions.router.js";
+import FileStore from 'session-file-store'
+import MongoStore from "connect-mongo";
 
 // import passport from "passport";
 // import { initPassport } from "./config/passport.config.js";
@@ -28,6 +30,22 @@ const io = new Server(httpServer);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(cookieParser("SeCrEtP@ss"))
+app.use(session({
+  store: MongoStore.create({
+    mongoUrl: 'mongodb+srv://dfercasas:ISG1dFUdEg5cpOHT@cluster0.yqs1z7n.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0',
+    mongoOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+    ttl: 60 * 60 * 1000 * 24
+  }),
+  secret: 'SeCrEtP@ss',
+  resave: true,
+  saveUninitialized: true
+
+}))
+
 
 connectDB();
 
@@ -52,7 +70,7 @@ app.use("/", viewRouter);
 app.use("/api/users", userRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter);
-//app.use("/api/sessions", j)
+app.use("/api/sessions", sessionsRouter)
 
 app.use((error, req, res, next) => {
   console.log(error);

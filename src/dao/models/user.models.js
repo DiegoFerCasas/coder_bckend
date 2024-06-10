@@ -12,6 +12,11 @@ const userSchema = new Schema({
         type: String,
         require: true,
         unique: true,
+    },
+    password:String,
+    role:{
+        type:String,
+        default: 'user'
     }
 })
 //ODM === object document model
