@@ -18,7 +18,7 @@ cartRouter.get("/:cid", async (req, res) => {
   res.send({ status: "success", cartbyId });
 });
 
-cartRouter.post("/", async (req, res) => {
+cartRouter.post("/",async (req, res) => {
   const newCart = await cart.addCart();
   res.status(200).json({ status: "success", newCart });
 });

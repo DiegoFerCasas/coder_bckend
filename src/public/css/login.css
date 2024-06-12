@@ -14,7 +14,7 @@ align-content: center;
 }
 
 .card{
-height: 370px;
+height: 350px;
 margin-top: auto;
 margin-bottom: auto;
 width: 400px;
@@ -32,17 +32,25 @@ color: white;
 cursor: pointer;
 }
 
+.card-header{
+    padding: 0.75rem 1.25rem;
+}
+
 .card-header h3{
 color: white;
+}
+
+.card-body{
+    padding: 1.25rem;
 }
 
 .social_icon{
 position: absolute;
 right: 20px;
-top: -45px;
+top: -35px;
 }
 
-.input-group-prepend span{
+.input-group span{
 width: 50px;
 background-color: #FFC312;
 color: black;

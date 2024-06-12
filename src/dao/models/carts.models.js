@@ -18,7 +18,7 @@ const cartSchema = new Schema({
 })
 
 cartSchema.pre('find', function () {
-    this.populate({path:'products.product',select:"code"})
+    this.populate({path:'products.product'})
 })
 cartSchema.plugin(mongoosePaginate)
 
