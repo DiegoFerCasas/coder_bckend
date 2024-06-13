@@ -14,6 +14,9 @@ import session from "express-session";
 import sessionsRouter from "./routes/sessions.router.js";
 import FileStore from 'session-file-store'
 import MongoStore from "connect-mongo";
+import dotenv from 'dotenv'
+import passport from "passport";
+import { initPassport } from "./config/passport.config.js";
 
 // import passport from "passport";
 // import { initPassport } from "./config/passport.config.js";
@@ -45,6 +48,9 @@ app.use(session({
   saveUninitialized: true
 
 }))
+initPassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 connectDB();

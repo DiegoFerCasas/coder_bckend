@@ -4,9 +4,17 @@ import { auth } from "../middlewares/auth.middleware.js";
 import mongoose from "mongoose";
 import passport from "passport";
 
-
 const sessionsRouter = Router()
 const userService = new UserManagerMongo()
+
+sessionsRouter.get('/github', passport.authenticate('github', { scope: 'user:email' }), async (req, res) => {
+
+})
+
+sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect:'/login'}), (req,res)=>{
+    req.session.user = req.user
+    res.redirect('/products')
+})
 
 sessionsRouter.post('/register', async (req, res) => {
     try {
