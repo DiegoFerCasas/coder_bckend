@@ -32,8 +32,8 @@ viewRouter.get('/chat', (req, res) => {
 
 })
 
-viewRouter.get('/realtimeproducts',auth,  (req, res) => {
-    res.render('realTimeProducts')
+viewRouter.get('/realtimeproducts',  (req, res) => {
+    res.render('realTimeProducts',{styles:'rtp.css'})
 })
 
 // viewRouter.get('/cart/:cid', async (req, res) => {

@@ -1,4 +1,3 @@
-console.log("estoy en rts")
 const socket = io()
 
 socket.on("rtp_connected", (data) => {
@@ -10,7 +9,14 @@ function viewRtp(data) {
     let htmlView = ""
     data.forEach(element => {
         htmlView += `
-        <li>${element.title}</li>
+        <li></li>
+         <tr>
+      <th scope="row">1</th>
+      <td>${element.title}</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
         `
         container.innerHTML = htmlView
     });

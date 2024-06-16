@@ -18,8 +18,6 @@ import dotenv from 'dotenv'
 import passport from "passport";
 import { initPassport } from "./config/passport.config.js";
 
-// import passport from "passport";
-// import { initPassport } from "./config/passport.config.js";
 
 const app = express();
 
@@ -46,8 +44,8 @@ app.use(session({
   secret: 'SeCrEtP@ss',
   resave: true,
   saveUninitialized: true
-
 }))
+
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())

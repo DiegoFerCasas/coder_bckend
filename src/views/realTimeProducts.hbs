@@ -1,9 +1,22 @@
 <main>
     <h1>Real time Products</h1>
-    <div id="rtpList">
-        <ul id="rtsViewContainer">
-
-        </ul>
+    <div id="rtpList" class="container">
+        {{!-- <ul id="rtsViewContainer">
+        </ul> --}}
+        <table class="table table-sm table-responsive-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody id="rtsViewContainer">
+    
+  </tbody>
+</table>
     </div>
     <div>
         <a href="/api/sessions/logout" class="btn btn-primary">logout</a>
