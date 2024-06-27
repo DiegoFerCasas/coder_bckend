@@ -1,8 +1,22 @@
 import { connect } from "mongoose";
+import dotenv from 'dotenv'
+import { program } from "../utils/commander.js";
 
-const connectDB = () => {
-    connect('mongodb+srv://dfercasas:ISG1dFUdEg5cpOHT@cluster0.yqs1z7n.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0')
+const { mode } = program.opts()
+
+dotenv.config({
+    path: mode === 'production' ? './.env.production' : './.env.development'
+})
+
+
+export const objectConfig = {
+    port: process.env.PORT || 8081,
+    mongo_url: process.env.MONGO_URL,
+}
+
+
+export const connectDB = async () => {
+    connect(process.env.MONGO_URL)
     console.log("DB connected")
 }
 
-export default connectDB

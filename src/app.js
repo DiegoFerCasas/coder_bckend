@@ -6,7 +6,7 @@ import { __dirname, uploader } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
-import connectDB from "./config/server.js";
+import { connectDB, objectConfig } from "./config/server.js";
 import productsSocket from "./utils/rtmSocket.js";
 import chatSocket from "./utils/chatSocket.js";
 import cookieParser from "cookie-parser";
@@ -20,12 +20,13 @@ import { initPassport } from "./config/passport.config.js";
 
 
 const app = express();
+const { port } = objectConfig
 
-const httpServer = app.listen(8080, (error) => {
-  console.log("escuchando puerto 8080");
+
+const httpServer = app.listen(port, (error) => {
+  console.log("escuchando puerto "+port);
 });
 const io = new Server(httpServer);
-
 
 
 app.use(express.json());
