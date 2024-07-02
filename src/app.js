@@ -10,8 +10,9 @@ import routerApp from './routes/index.js';
 
 
 import { __dirname, uploader } from "./utils.js";
-import productsSocket from "./utils/rtmSocket.js";
-import chatSocket from "./utils/chatSocket.js";
+// import productsSocket from "./utils/rtmSocket.js";
+// import chatSocket from "./utils/chatSocket.js";
+import { chatSocket, realTimeSocket } from "./utils/socket.js";
 import { connectDB, objectConfig } from "./config/server.js";
 import { initPassport } from "./config/passport.config.js";
 import passport from "passport";
@@ -33,7 +34,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser("SeCrEtP@ss"))
 app.use(chatSocket(io))
-app.use(productsSocket(io))
+app.use(realTimeSocket(io))
+//app.use(productsSocket(io))
 app.use(session({
   store: MongoStore.create({
     mongoUrl: 'mongodb+srv://dfercasas:ISG1dFUdEg5cpOHT@cluster0.yqs1z7n.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0',

@@ -13,9 +13,9 @@ function viewRtp(data) {
          <tr>
       <th scope="row">1</th>
       <td>${element.title}</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
+      <td>${element.stock}</td>
+      <td>$${element.price}</td>
+      <td>${element.category}</td>
     </tr>
         `
         container.innerHTML = htmlView
