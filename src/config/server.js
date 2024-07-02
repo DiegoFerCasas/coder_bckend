@@ -12,6 +12,8 @@ dotenv.config({
 export const objectConfig = {
     port: process.env.PORT || 8081,
     mongo_url: process.env.MONGO_URL,
+    gmail_user: process.env.GMAIL_USER,
+    gmail_pass: process.env.GMAIL_
 }
 
 

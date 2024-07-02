@@ -1,10 +1,10 @@
 import { Router } from "express";
-import UserManagerMongo from "../dao/dbManagers/UsersManagerMdb.js";
-import { auth } from "../middlewares/auth.middleware.js";
+import UserManagerMongo from "../../dao/dbManagers/UsersManagerMdb.js";
+import { auth } from "../../middlewares/auth.middleware.js";
 import mongoose from "mongoose";
 import passport from "passport";
-import { authToken, generateToken } from "../utils/jwt.js";
-import { createHash, validPass } from "../utils/bcrypt.js";
+import { authToken, generateToken } from "../../utils/jwt.js";
+import { createHash, validPass } from "../../utils/bcrypt.js";
 
 const sessionsRouter = Router()
 const userService = new UserManagerMongo()

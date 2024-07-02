@@ -1,26 +1,24 @@
 import express from "express";
-import productsRouter from "./routes/products.router.js";
-import cartRouter from "./routes/cart.router.js";
-import userRouter from "./routes/users.router.js";
-import { __dirname, uploader } from "./utils.js";
 import handlebars from "express-handlebars";
-import viewRouter from "./routes/views.router.js";
+import FileStore from 'session-file-store'
+import cookieParser from "cookie-parser";
+import MongoStore from "connect-mongo";
 import { Server } from "socket.io";
-import { connectDB, objectConfig } from "./config/server.js";
+import session from "express-session";
+
+import routerApp from './routes/index.js';
+
+
+import { __dirname, uploader } from "./utils.js";
 import productsSocket from "./utils/rtmSocket.js";
 import chatSocket from "./utils/chatSocket.js";
-import cookieParser from "cookie-parser";
-import session from "express-session";
-import sessionsRouter from "./routes/sessions.router.js";
-import FileStore from 'session-file-store'
-import MongoStore from "connect-mongo";
-import dotenv from 'dotenv'
-import passport from "passport";
+import { connectDB, objectConfig } from "./config/server.js";
 import { initPassport } from "./config/passport.config.js";
+import passport from "passport";
 
+const { port } = objectConfig
 
 const app = express();
-const { port } = objectConfig
 
 
 const httpServer = app.listen(port, (error) => {
@@ -28,11 +26,14 @@ const httpServer = app.listen(port, (error) => {
 });
 const io = new Server(httpServer);
 
+connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser("SeCrEtP@ss"))
+app.use(chatSocket(io))
+app.use(productsSocket(io))
 app.use(session({
   store: MongoStore.create({
     mongoUrl: 'mongodb+srv://dfercasas:ISG1dFUdEg5cpOHT@cluster0.yqs1z7n.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0',
@@ -46,13 +47,10 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
-
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-connectDB();
 
 app.engine(
   "hbs",
@@ -64,24 +62,7 @@ app.set("views", __dirname + "/views"); // confiuracion para las vistas
 app.set("view engine", "hbs");
 
 
-app.use("/upload-file", uploader.single("myFile"), (req, res) => {
-  if (!req.file) {
-    return res.send("no se pudo subir eso");
-  }
-  res.send("archivo arriba");
-});
 
-app.use("/", viewRouter);
-app.use("/api/users", userRouter);
-app.use("/api/products", productsRouter);
-app.use("/api/cart", cartRouter);
-app.use("/api/sessions", sessionsRouter)
+app.use(routerApp)
 
-app.use((error, req, res, next) => {
-  console.log(error);
-  res.status(500).send("error 500 en el server");
-});
-
-app.use(chatSocket(io))
-app.use(productsSocket(io))
 
