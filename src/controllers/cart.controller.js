@@ -1,24 +1,26 @@
 import { cartService } from "../service/index.js";
 
 class CartController {
-    constructor(){}
+    constructor(){
+      this.cartService = cartService
+    }
 
     getCarts = async (req, res) => {
-        const allCart = await cart.getCarts();
+        const allCart = await this.cartService.getCarts();
         res.send({ status: "success", allCart });
       }
 
     getCartById = async (req, res) => {
         const { cid } = req.params;
         const value = cid;
-        const cartbyId = await cart.getCartById(value);
+        const cartbyId = await this.cartService.getCartById(value);
         res.send({ status: "success", cartbyId });
       }
 
     //getCartByIdView = 
 
     addCart = async (req, res) => {
-        const newCart = await cart.addCart();
+        const newCart = await this.cartService.addCart();
         res.status(200).json({ status: "success", newCart });
       }
 
@@ -27,7 +29,7 @@ class CartController {
           const cid = req.params.cid;
           const pid = req.params.pid;
       
-          await cart.addCartProduct(cid, pid);
+          await this.cartService.addCartProduct(cid, pid);
           res.send({
             status: "success",
             message: "Product added to cart successfully.",
@@ -48,7 +50,7 @@ class CartController {
       
           if (!quantity) return res.status(404).json({ status: "error", message: "La cantidad es obligatoria" })
       
-          const uptcart = await cart.modifyOrderQuantity(cid, pid, quantity);
+          const uptcart = await this.cartService.modifyOrderQuantity(cid, pid, quantity);
       
           if (!uptcart) return res.status(404).json({ status: "error", message: "No se pudo realizar la actualización" })
           res.send({ status: "success", message: " cart modified successfully.", uptcart });
@@ -64,7 +66,7 @@ class CartController {
           const cid = req.params.cid;
           const pid = req.params.pid;
       
-          await cart.deleteCartProduct(cid, pid);
+          await this.cartService.deleteCartProduct(cid, pid);
           res.send({
             status: "success",
             message: "Product deleted form cart successfully.",
@@ -82,7 +84,7 @@ class CartController {
         try {
           const cid = req.params.cid;
       
-          await cart.deleteCart(cid);
+          await this.cartService.deleteCart(cid);
       
           res.send({ status: "success", message: " cart deleted successfully." });
         } catch (error) {
