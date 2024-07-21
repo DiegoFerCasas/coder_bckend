@@ -23,12 +23,12 @@ export const realTimeSocket = (io) => {
     io.on("connection", async (socket) => {
       console.log("Conectado a RTP");
   
-      const productList = await products.getAll();
+      const productList = await products.getProducts();
       io.emit("rtp_connected", productList);
   
       socket.on("addProduct", async (value) => {
-        await products.create(value);
-        const productList = await products.getAll();
+        await products.addProduct(value);
+        const productList = await products.getProducts();
         io.emit("rtp_connected", productList);
       });
     });

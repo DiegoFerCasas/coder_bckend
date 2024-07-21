@@ -5,7 +5,7 @@ class CartManagerMongo {
     this.model = cartModel;
   }
 
-  getCarts = async () => {
+  getAll = async () => {
     try {
       return await this.model.find({}).lean();
     } catch (error) {
@@ -13,7 +13,7 @@ class CartManagerMongo {
     }
   };
   
-  getCartById = async (value) => {
+  getBy = async (value) => {
     try {
       return await this.model
         .findById(value)
@@ -24,7 +24,7 @@ class CartManagerMongo {
     }
   };
 
-  getCartByIdView = async (cid) => {
+  getView = async (cid) => {
     try {
       if (cid) {
         return await cartModel.paginate(
@@ -37,7 +37,7 @@ class CartManagerMongo {
     }
   };
 
-  addCart = async (obj) => {
+  create = async (obj) => {
     try {
       return await cartModel.create(obj);
     } catch (error) {
@@ -45,7 +45,7 @@ class CartManagerMongo {
     }
   };
 
-  addCartProduct = async (cid, pid) => {
+  createProduct = async (cid, pid) => {
     const cart = await this.model.findOne({ _id: cid });
     console.log(cart);
 
@@ -60,21 +60,21 @@ class CartManagerMongo {
     }
   };
 
-  modifyOrderQuantity = async (cid, pid, quantity) =>
+  update = async (cid, pid, quantity) =>
     await this.model.findOneAndUpdate(
       { _id: cid, "products.product": pid },
       { $set: { "products.$.quantity": quantity } },
       { new: true }
     );
 
-  deleteCartProduct = async (cid, pid) =>
+  deleteProduct = async (cid, pid) =>
     await this.model.findByIdAndUpdate(
       { _id: cid },
       { $pull: { products: { product: pid } } },
       { new: true }
     );
 
-  deleteCart = async (cid) =>
+  delete = async (cid) =>
     await this.model.findByIdAndUpdate(
       { _id: cid },
       { $set: { products: [] } },

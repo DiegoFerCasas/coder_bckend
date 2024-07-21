@@ -1,13 +1,13 @@
+import { UsersDao, ProductsDao, CartsDao, MessagesDao } from "../daos/factory.js";
 import UserRepository from "../repository/users.repository.js";
-import { UsersDao, ProductDao, CartsDao} from "../daos/factory.js";
-import ProductManagerMongo from "../daos/mongo/productDao.mdb.js";
-import CartManagerMongo from "../daos/mongo/cartDao.mdb.js";
-import MessageManagerMongo from "../daos/mongo/messagesDao.mdb.js";
+import ProductRepository from "../repository/products.repository.js";
+import CartsRepository from "../repository/carts.repository.js";
+import MessageRepository from "../repository/messages.repository.js";
 
 
 export const userService = new UserRepository(new UsersDao())
-export const productService =  new ProductManagerMongo()
-export const cartService =  new CartManagerMongo()
-export const messageService = new MessageManagerMongo()
+export const productService = new ProductRepository(new ProductsDao())
+export const cartService = new CartsRepository(new CartsDao())
+export const messageService = new MessageRepository(new MessagesDao())
 
 

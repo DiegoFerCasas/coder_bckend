@@ -2,7 +2,7 @@ import { chatModel } from "./models/messages.models.js";
 
 class MessageManagerMongo {
 
-    getMessages = async () => {
+    get = async () => {
         try {
             return await chatModel.find().lean()
         } catch (error) {
@@ -10,7 +10,7 @@ class MessageManagerMongo {
         }
     }
 
-    addMessages = async (message) => {
+    create = async (message) => {
         try {
             return await chatModel.create(message)
         } catch (error) {
@@ -18,7 +18,7 @@ class MessageManagerMongo {
         }
     }
 
-    deleteAllMessages = async ()=>{
+    delete = async ()=>{
         try{
             const result = await chatModel.deleteMany({})
             return result
