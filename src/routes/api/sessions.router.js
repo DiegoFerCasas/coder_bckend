@@ -1,5 +1,5 @@
 import { Router } from "express";
-import UserManagerMongo from "../../dao/dbManagers/UsersManagerMdb.js";
+import UserManagerMongo from "../../daos/mongo/UsersDao.mdb.js";
 import { auth } from "../../middlewares/auth.middleware.js";
 import mongoose from "mongoose";
 import passport from "passport";

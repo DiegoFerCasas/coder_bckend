@@ -1,7 +1,7 @@
 import { response, Router } from "express";
 //import ProductManager from "../dao/productManagerFs.js"
-import ProductManagerMongo from "../dao/dbManagers/productManagerMdb.js";
-import CartManagerMongo from "../dao/dbManagers/cartManagerMdb.js";
+import ProductManagerMongo from "../daos/mongo/productDao.mdb.js";
+import CartManagerMongo from "../daos/mongo/cartDao.mdb.js";
 import { auth } from "../middlewares/auth.middleware.js";
 
 const viewRouter = Router()

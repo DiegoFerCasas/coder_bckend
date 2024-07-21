@@ -1,10 +1,11 @@
-import UserManagerMongo from "../dao/dbManagers/UsersManagerMdb.js";
-import ProductManagerMongo from "../dao/dbManagers/productManagerMdb.js";
-import CartManagerMongo from "../dao/dbManagers/cartManagerMdb.js";
-import MessageManagerMongo from "../dao/dbManagers/messagesManager.js";
+import UserRepository from "../repository/users.repository.js";
+import { UsersDao, ProductDao, CartsDao} from "../daos/factory.js";
+import ProductManagerMongo from "../daos/mongo/productDao.mdb.js";
+import CartManagerMongo from "../daos/mongo/cartDao.mdb.js";
+import MessageManagerMongo from "../daos/mongo/messagesDao.mdb.js";
 
 
-export const userService = new UserManagerMongo()
+export const userService = new UserRepository(new UsersDao())
 export const productService =  new ProductManagerMongo()
 export const cartService =  new CartManagerMongo()
 export const messageService = new MessageManagerMongo()

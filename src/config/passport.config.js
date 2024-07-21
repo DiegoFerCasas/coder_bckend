@@ -1,7 +1,7 @@
 import passport from "passport";
 import local from 'passport-local'
 import GitHubStrategy from 'passport-github2'
-import UserManagerMongo from "../dao/dbManagers/UsersManagerMdb.js";
+import UserManagerMongo from "../daos/mongo/UsersDao.mdb.js";
 import { createHash, validPass } from "../utils/bcrypt.js";
 
 const LocalStrategy = local.Strategy
