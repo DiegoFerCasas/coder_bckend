@@ -9,7 +9,7 @@ const products = new ProductManagerMongo()
 const carts = new CartManagerMongo()
 
 viewRouter.get('/', async (req, res) => {
-    const productList = await products.getProducts()
+    const productList = await products.getAll()
     res.render('home', { productList })
 })
 
