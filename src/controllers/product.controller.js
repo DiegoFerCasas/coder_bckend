@@ -8,7 +8,6 @@ class ProductController {
     getProducts = async (req, res) => {
         const { limit } = req.query;
         try {
-            console.log("aqui estoy")
             const allProducts = await this.productService.getProducts();
 
             if (!limit || limit <= "0") {

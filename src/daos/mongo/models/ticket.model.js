@@ -1,25 +1,27 @@
 import { Schema, model } from "mongoose";
-import mongoosePaginate from 'mongoose-paginate-v2'
 
 const ticketCollection = 'ticket'
 
 const ticketSchema = new Schema({
 
-    products: {
-        type: [{
-            product: {
-                type: Schema.Types.ObjectId,
-                ref: "titles"
-            },
-            quantity: Number
-        }
-        ]
+    code:{
+        type:String,
+        require:true,
+        unique:true
+    },
+    purchase_datetime:{
+        type:Date,
+        require:true
+    },
+    amount:{
+        type:Number,
+        require:true,
+    },
+    purchaser:{
+        type:String,
+        require:true
     }
+
 })
 
-cartSchema.pre('find', function () {
-    this.populate({path:'products.product'})
-})
-cartSchema.plugin(mongoosePaginate)
-
-export const ticketModel = model(cartCollection, ticketSchema)
+export const ticketModel = model(ticketCollection, ticketSchema)

@@ -5,6 +5,7 @@ export let ProductsDao
 export let CartsDao
 export let UsersDao
 export let MessagesDao
+export let TicketDao
 
 switch (objectConfig.persistence) {
     case "MEMORY":
@@ -21,10 +22,13 @@ switch (objectConfig.persistence) {
         const { default: CartManagerMongo } = await import("./mongo/cartDao.mdb.js")
         const { default: UserManagerMongo } = await import("./mongo/UsersDao.mdb.js")
         const { default: MessageManagerMongo } = await import("./mongo/messagesDao.mdb.js")
+        const {default: ticketDao} = await import ("./mongo/ticketDao.mdb.js")
 
         ProductsDao = ProductManagerMongo
         CartsDao = CartManagerMongo
         UsersDao = UserManagerMongo
         MessagesDao = MessageManagerMongo
+        TicketDao = ticketDao
+
         break
 }
